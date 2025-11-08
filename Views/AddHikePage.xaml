@@ -1,0 +1,34 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:viewModels="clr-namespace:MHiker_CrossPlatform.ViewModels"
+             
+    x:DataType="viewModels:AddHikeViewModel"
+
+             x:Class="MHiker_CrossPlatform.Views.AddHikePage"
+             Title="Add New Hike">
+
+
+    <ScrollView>
+        <VerticalStackLayout Spacing="10" Padding="20">
+
+            <Entry Placeholder="Hike Name (Required)" Text="{Binding Name}" />
+            <Entry Placeholder="Location (Required)" Text="{Binding Location}" />
+            <DatePicker Date="{Binding DateOfHike}" />
+            <HorizontalStackLayout VerticalOptions="Center" Spacing="10">
+                <Label Text="Parking Available" VerticalOptions="Center"/>
+                <Switch IsToggled="{Binding IsParkingAvailable}" />
+            </HorizontalStackLayout>
+            <Entry Placeholder="Length of Hike (km, Required)" Keyboard="Numeric" Text="{Binding LengthOfHike}" />
+            <Picker Title="Select Difficulty"
+                    ItemsSource="{Binding DifficultyLevels}"
+                    SelectedItem="{Binding SelectedDifficulty}" />
+            <Entry Placeholder="Hiker Count (Optional)" Keyboard="Numeric" Text="{Binding HikerCount}"/>
+            <Entry Placeholder="Estimated Time (hours, Optional)" Keyboard="Numeric" Text="{Binding EstimatedTime}"/>
+            <Editor Placeholder="Description (Optional)" HeightRequest="100" Text="{Binding Description}" />
+            <Button Text="Save Hike" Command="{Binding SaveHikeCommand}" />
+
+        </VerticalStackLayout>
+    </ScrollView>
+
+</ContentPage>

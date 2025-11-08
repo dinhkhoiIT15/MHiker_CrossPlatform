@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:viewModels="clr-namespace:MHiker_CrossPlatform.ViewModels"
+             xmlns:models="clr-namespace:MHiker_CrossPlatform.Models"
+             x:DataType="viewModels:HikeListViewModel"
+             x:Class="MHiker_CrossPlatform.Views.HikeListPage"
+             Title="All Hikes">
+
+    <Grid RowDefinitions="*, Auto">
+
+        <CollectionView ItemsSource="{Binding Hikes}" Grid.Row="0">
+            <CollectionView.ItemTemplate>
+                <DataTemplate x:DataType="models:Hike">
+                    <Frame Padding="10" Margin="10,5">
+                        <Grid RowDefinitions="Auto, Auto, Auto" ColumnDefinitions="*, Auto, Auto">
+                            <Label Grid.Row="0" Grid.Column="0" Text="{Binding Name}" FontSize="18" FontAttributes="Bold" />
+                            <Label Grid.Row="1" Grid.Column="0" Text="{Binding Location, StringFormat='Location: {0}'}" />
+                            <Label Grid.Row="2" Grid.Column="0" Text="{Binding DateOfHike, StringFormat='{0:MMM dd, yyyy}'}" />
+
+                            <Button Grid.Column="1" Grid.RowSpan="3"
+                                    Text="Edit"
+                                    Command="{Binding Source={RelativeSource AncestorType={x:Type viewModels:HikeListViewModel}}, Path=GoToEditHikeCommand}"
+                                    CommandParameter="{Binding .}"/>
+
+                            <Button Grid.Column="2" Grid.RowSpan="3"
+                                    Text="Delete"
+                                    BackgroundColor="Red"
+                                    Command="{Binding Source={RelativeSource AncestorType={x:Type viewModels:HikeListViewModel}}, Path=DeleteHikeCommand}"
+                                    CommandParameter="{Binding .}"/>
+                        </Grid>
+                    </Frame>
+                </DataTemplate>
+            </CollectionView.ItemTemplate>
+        </CollectionView>
+
+        <Button Grid.Row="1"
+                Text="Add New Hike"
+                FontSize="18"
+                Margin="10"
+                Command="{Binding GoToAddHikeCommand}" />
+    </Grid>
+
+</ContentPage>
