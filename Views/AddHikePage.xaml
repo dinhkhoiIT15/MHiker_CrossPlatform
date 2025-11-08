@@ -2,9 +2,16 @@
 <ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              xmlns:viewmodel="clr-namespace:MHiker_CrossPlatform.ViewModels"
-             x:DataType="viewmodel:AddHikeViewModel"
+             xmlns:converters="clr-namespace:MHiker_CrossPlatform.Converters" x:DataType="viewmodel:AddHikeViewModel"
              x:Class="MHiker_CrossPlatform.Views.AddHikePage"
-             Title="Add New Hike">
+             Title="{Binding Title}">
+
+    <ContentPage.Resources>
+        <ResourceDictionary>
+            <converters:BoolToYesNoConverter x:Key="BoolToYesNoConverter" />
+        </ResourceDictionary>
+    </ContentPage.Resources>
+
     <ScrollView>
         <VerticalStackLayout Padding="20" Spacing="15">
 
@@ -34,7 +41,7 @@
                 </Border.StrokeShape>
                 <HorizontalStackLayout Spacing="10" VerticalOptions="Center">
                     <Image Source="ic_date.png" WidthRequest="24" HeightRequest="24" />
-                    <Entry Text="{Binding DateOfHike}" Placeholder="Date (e.g. Nov 10, 2025) (Required)" VerticalOptions="Center" HorizontalOptions="FillAndExpand" />
+                    <DatePicker Date="{Binding DateOfHike}" Format="MMM dd, yyyy" HorizontalOptions="FillAndExpand" />
                 </HorizontalStackLayout>
             </Border>
 
@@ -67,14 +74,20 @@
                 </HorizontalStackLayout>
             </Border>
 
-            <Border StrokeThickness="1" Padding="8,8">
+            <Border StrokeThickness="1" Padding="8,0">
                 <Border.StrokeShape>
                     <RoundRectangle CornerRadius="5" Stroke="#CCCCCC" />
                 </Border.StrokeShape>
                 <HorizontalStackLayout Spacing="10" VerticalOptions="Center">
                     <Image Source="ic_parking.png" WidthRequest="24" HeightRequest="24" />
-                    <Label Text="Parking Available" VerticalOptions="Center" HorizontalOptions="FillAndExpand" />
-                    <Switch IsToggled="{Binding ParkingAvailable}" />
+                    <Picker SelectedItem="{Binding ParkingAvailable, Converter={StaticResource YesNoToBoolConverter}}" Title="Parking Available (Required)" HorizontalOptions="FillAndExpand">
+                        <Picker.ItemsSource>
+                            <x:Array Type="{x:Type x:String}">
+                                <x:String>Yes</x:String>
+                                <x:String>No</x:String>
+                            </x:Array>
+                        </Picker.ItemsSource>
+                    </Picker>
                 </HorizontalStackLayout>
             </Border>
 

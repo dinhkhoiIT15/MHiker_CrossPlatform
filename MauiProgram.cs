@@ -1,5 +1,4 @@
-﻿// --- VỊ TRÍ SỬA ---: Thêm 'using' cho các thư mục mới
-using MHiker_CrossPlatform.Services;
+﻿using MHiker_CrossPlatform.Services;
 using MHiker_CrossPlatform.ViewModels;
 using MHiker_CrossPlatform.Views;
 
@@ -18,18 +17,18 @@ public static class MauiProgram
                 fonts.AddFont("OpenSans-Semibold.ttf", "OpenSansSemibold");
             });
 
-
-        // Đăng ký DatabaseService là Singleton (chỉ có 1 thể hiện duy nhất)
+        // Đăng ký Service
         builder.Services.AddSingleton<DatabaseService>();
 
-        // Đăng ký ViewModels
+        // Đăng ký ViewModel 
+        builder.Services.AddSingleton<HikeListViewModel>();
         builder.Services.AddTransient<AddHikeViewModel>();
-        builder.Services.AddTransient<HikeListViewModel>();
+        builder.Services.AddTransient<HikeDetailViewModel>(); // THÊM MỚI
 
-        // Đăng ký Pages (Views)
+        // Đăng ký View
+        builder.Services.AddSingleton<HikeListPage>();
         builder.Services.AddTransient<AddHikePage>();
-        builder.Services.AddTransient<HikeListPage>();
-
+        builder.Services.AddTransient<HikeDetailPage>(); // THÊM MỚI
 
         return builder.Build();
     }

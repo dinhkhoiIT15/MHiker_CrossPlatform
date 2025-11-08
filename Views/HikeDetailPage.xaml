@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:viewmodel="clr-namespace:MHiker_CrossPlatform.ViewModels"
+             xmlns:converters="clr-namespace:MHiker_CrossPlatform.Converters"
+             x:DataType="viewmodel:HikeDetailViewModel"
+             x:Class="MHiker_CrossPlatform.Views.HikeDetailPage"
+             Title="{Binding Hike.Name}">
+
+    <ContentPage.Resources>
+        <ResourceDictionary>
+            <converters:BoolToYesNoConverter x:Key="BoolToYesNoConverter" />
+        </ResourceDictionary>
+    </ContentPage.Resources>
+
+    <ScrollView>
+        <VerticalStackLayout Padding="20" Spacing="15">
+            <Label Text="{Binding Hike.Name}" FontSize="24" FontAttributes="Bold" />
+
+            <Grid ColumnDefinitions="Auto,*" RowDefinitions="Auto,Auto,Auto,Auto,Auto,Auto,Auto" Padding="10" RowSpacing="10" ColumnSpacing="10">
+                <Label Grid.Row="0" Grid.Column="0" Text="Location:" FontAttributes="Bold" />
+                <Label Grid.Row="0" Grid.Column="1" Text="{Binding Hike.Location}" />
+
+                <Label Grid.Row="1" Grid.Column="0" Text="Date:" FontAttributes="Bold" />
+                <Label Grid.Row="1" Grid.Column="1" Text="{Binding Hike.DateOfHike, StringFormat='{0:MMM dd, yyyy}'}" />
+
+                <Label Grid.Row="2" Grid.Column="0" Text="Length:" FontAttributes="Bold" />
+                <Label Grid.Row="2" Grid.Column="1" Text="{Binding Hike.LengthOfHike, StringFormat='{0} km'}" />
+
+                <Label Grid.Row="3" Grid.Column="0" Text="Difficulty:" FontAttributes="Bold" />
+                <Label Grid.Row="3" Grid.Column="1" Text="{Binding Hike.DifficultyLevel}" />
+
+                <Label Grid.Row="4" Grid.Column="0" Text="Parking:" FontAttributes="Bold" />
+                <Label Grid.Row="4" Grid.Column="1" Text="{Binding Hike.ParkingAvailable, Converter={StaticResource BoolToYesNoConverter}}" />
+
+                <Label Grid.Row="5" Grid.Column="0" Text="Hiker Count:" FontAttributes="Bold" />
+                <Label Grid.Row="5" Grid.Column="1" Text="{Binding Hike.HikerCount}" />
+
+                <Label Grid.Row="6" Grid.Column="0" Text="Equipment:" FontAttributes="Bold" />
+                <Label Grid.Row="6" Grid.Column="1" Text="{Binding Hike.Equipment}" />
+            </Grid>
+
+            <Label Text="Description" FontSize="16" FontAttributes="Bold" Margin="0,10,0,0" />
+            <Label Text="{Binding Hike.Description}" />
+
+            <HorizontalStackLayout Spacing="10" Margin="0,20,0,0">
+                <Button Text="Edit" 
+                        Command="{Binding EditHikeCommand}" 
+                        HorizontalOptions="FillAndExpand" />
+
+                <Button Text="Delete" 
+                        Command="{Binding DeleteHikeCommand}" 
+                        BackgroundColor="Red" 
+                        HorizontalOptions="FillAndExpand" />
+            </HorizontalStackLayout>
+
+        </VerticalStackLayout>
+    </ScrollView>
+</ContentPage>

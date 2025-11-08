@@ -2,22 +2,27 @@
 using CommunityToolkit.Mvvm.Input;
 using MHiker_CrossPlatform.Models;
 using MHiker_CrossPlatform.Services;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
+using System; // THÊM MỚI
+using System.Diagnostics;
 using System.Threading.Tasks;
 
 namespace MHiker_CrossPlatform.ViewModels
 {
+    [QueryProperty(nameof(HikeId), "id")]
     public partial class AddHikeViewModel : ObservableObject
     {
         private readonly DatabaseService _databaseService;
+        private int _currentHikeId = 0;
 
         public AddHikeViewModel(DatabaseService databaseService)
         {
             _databaseService = databaseService;
+            Title = "Add New Hike";
+            _dateOfHike = DateTime.Now; // Khởi tạo ngày
         }
+
+        [ObservableProperty]
+        private string _title;
 
         [ObservableProperty]
         private string _name;
@@ -25,15 +30,13 @@ namespace MHiker_CrossPlatform.ViewModels
         [ObservableProperty]
         private string _location;
 
-        // THAY ĐỔI: Từ DateTime sang string
+        // THAY ĐỔI: Sang DateTime
         [ObservableProperty]
-        private string _dateOfHike;
+        private DateTime _dateOfHike;
 
-        // THAY ĐỔI: Tên (bỏ 'Is')
         [ObservableProperty]
         private bool _parkingAvailable;
 
-        // THAY ĐỔI: Từ double sang string
         [ObservableProperty]
         private string _lengthOfHike;
 
@@ -43,44 +46,85 @@ namespace MHiker_CrossPlatform.ViewModels
         [ObservableProperty]
         private string _description;
 
-        // THAY ĐỔI: Từ int sang string
         [ObservableProperty]
         private string _hikerCount;
 
-        // THÊM MỚI
         [ObservableProperty]
         private string _equipment;
 
-        // ĐÃ XÓA: EstimatedTime
+        public int HikeId
+        {
+            set
+            {
+                if (value > 0)
+                {
+                    _currentHikeId = value;
+                    LoadHikeForEdit(value);
+                }
+            }
+        }
 
+        private async void LoadHikeForEdit(int hikeId)
+        {
+            try
+            {
+                var hike = await _databaseService.GetHikeByIdAsync(hikeId);
+                if (hike != null)
+                {
+                    Title = "Edit Hike";
+                    Name = hike.Name;
+                    Location = hike.Location;
+                    DateOfHike = hike.DateOfHike; // Sẽ tự động gán
+                    ParkingAvailable = hike.ParkingAvailable;
+                    LengthOfHike = hike.LengthOfHike;
+                    DifficultyLevel = hike.DifficultyLevel;
+                    Description = hike.Description;
+                    HikerCount = hike.HikerCount;
+                    Equipment = hike.Equipment;
+                }
+            }
+            catch (Exception ex)
+            {
+                Debug.WriteLine($"Failed to load Hike for edit: {ex.Message}");
+            }
+        }
 
         [RelayCommand]
         private async Task SaveHike()
         {
+            // THAY ĐỔI: Bỏ kiểm tra DateOfHike (vì nó luôn có giá trị)
             if (string.IsNullOrWhiteSpace(Name) ||
                 string.IsNullOrWhiteSpace(Location) ||
-                string.IsNullOrWhiteSpace(DateOfHike) || // Cập nhật kiểm tra
-                string.IsNullOrWhiteSpace(LengthOfHike)) // Cập nhật kiểm tra
+                string.IsNullOrWhiteSpace(LengthOfHike))
             {
-                await Shell.Current.DisplayAlert("Lỗi", "Vui lòng điền các trường bắt buộc", "OK");
+                await Shell.Current.DisplayAlert("Error", "Please fill in all required fields.", "OK");
                 return;
             }
 
-            var newHike = new Hike
+            var hike = new Hike
             {
+                Id = _currentHikeId,
                 Name = Name,
                 Location = Location,
-                DateOfHike = DateOfHike, // string
-                ParkingAvailable = ParkingAvailable, // bool
-                LengthOfHike = LengthOfHike, // string
+                DateOfHike = DateOfHike, // Gán DateTime
+                ParkingAvailable = ParkingAvailable,
+                LengthOfHike = LengthOfHike,
                 DifficultyLevel = DifficultyLevel,
                 Description = Description,
-                HikerCount = HikerCount, // string
-                Equipment = Equipment // THÊM MỚI
+                HikerCount = HikerCount,
+                Equipment = Equipment
             };
 
-            await _databaseService.AddHikeAsync(newHike);
-            await Shell.Current.GoToAsync(".."); // Quay lại trang trước
+            if (_currentHikeId == 0)
+            {
+                await _databaseService.AddHikeAsync(hike);
+            }
+            else
+            {
+                await _databaseService.UpdateHikeAsync(hike);
+            }
+
+            await Shell.Current.GoToAsync("..");
         }
     }
 }

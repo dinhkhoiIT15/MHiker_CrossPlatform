@@ -29,28 +29,37 @@ namespace MHiker_CrossPlatform.Services
             await _database.CreateTableAsync<Hike>();
         }
 
-        // THAY ĐỔI: Sửa tên phương thức
+        // Lấy tất cả
         public async Task<List<Hike>> GetHikesAsync()
         {
             await Init();
             return await _database.Table<Hike>().ToListAsync();
         }
 
-        // THAY ĐỔI: Sửa tên phương thức
+        // THÊM MỚI (Phương thức bị thiếu)
+        // Lấy Hike theo ID
+        public async Task<Hike> GetHikeByIdAsync(int id)
+        {
+            await Init();
+            return await _database.Table<Hike>().FirstOrDefaultAsync(h => h.Id == id);
+        }
+        // KẾT THÚC THÊM MỚI
+
+        // THÊM
         public async Task<int> AddHikeAsync(Hike hike)
         {
             await Init();
             return await _database.InsertAsync(hike);
         }
 
-        // THAY ĐỔI: Sửa tên phương thức
+        // XÓA
         public async Task<int> DeleteHikeAsync(Hike hike)
         {
             await Init();
             return await _database.DeleteAsync(hike);
         }
 
-        // THAY ĐỔI: Sửa tên phương thức
+        // CẬP NHẬT
         public async Task<int> UpdateHikeAsync(Hike hike)
         {
             await Init();

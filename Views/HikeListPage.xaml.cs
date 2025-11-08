@@ -1,23 +1,23 @@
-// --- V? TR� S?A ---: T?o file m?i ho�n to�n
-using MHiker_CrossPlatform.ViewModels;
+﻿using MHiker_CrossPlatform.ViewModels;
 
 namespace MHiker_CrossPlatform.Views;
 
 public partial class HikeListPage : ContentPage
 {
-    private readonly HikeListViewModel _viewModel;
-
     public HikeListPage(HikeListViewModel viewModel)
     {
         InitializeComponent();
-        _viewModel = viewModel;
-        BindingContext = _viewModel;
+        BindingContext = viewModel;
     }
 
-    // T? ??ng t?i l?i danh s�ch khi trang xu?t hi?n
-    protected override async void OnAppearing()
+    // Tải lại dữ liệu mỗi khi trang xuất hiện
+    protected override void OnAppearing()
     {
         base.OnAppearing();
-        await _viewModel.LoadHikesCommand.ExecuteAsync(null);
+        if (BindingContext is HikeListViewModel vm)
+        {
+            // Không dùng await ở đây để UI không bị treo
+            vm.GetHikesCommand.Execute(null);
+        }
     }
 }

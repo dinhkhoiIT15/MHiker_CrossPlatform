@@ -26,8 +26,14 @@
 
                             <HorizontalStackLayout Spacing="8" VerticalOptions="Center">
                                 <Image Source="ic_date.png" WidthRequest="16" HeightRequest="16" />
-                                <Label Text="{Binding DateOfHike}" FontSize="14" VerticalOptions="Center" />
+                                <Label Text="{Binding DateOfHike, StringFormat='{0:MMM dd, yyyy}'}" FontSize="14" VerticalOptions="Center" />
                             </HorizontalStackLayout>
+
+                            <VerticalStackLayout.GestureRecognizers>
+                                <TapGestureRecognizer 
+                                    Command="{Binding Source={RelativeSource AncestorType={x:Type viewmodel:HikeListViewModel}}, Path=SelectHikeCommand}"
+                                    CommandParameter="{Binding .}" />
+                            </VerticalStackLayout.GestureRecognizers>
 
                         </VerticalStackLayout>
                     </Frame>
