@@ -66,12 +66,9 @@
 	</ItemGroup>
 
 	<ItemGroup>
-	  <Compile Update="Views\AddHikePage.xaml.cs">
-	    <DependentUpon>AddHikePage.xaml</DependentUpon>
-	  </Compile>
-	</ItemGroup>
-
-	<ItemGroup>
+	  <MauiXaml Update="Views\AddHikePage.xaml">
+	    <Generator>MSBuild:Compile</Generator>
+	  </MauiXaml>
 	  <MauiXaml Update="Views\HikeListPage.xaml">
 	    <Generator>MSBuild:Compile</Generator>
 	  </MauiXaml>
