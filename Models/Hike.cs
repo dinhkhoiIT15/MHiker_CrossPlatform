@@ -15,13 +15,12 @@ namespace MHiker_CrossPlatform.Models
 
         public string Name { get; set; }
         public string Location { get; set; }
-        public string DateOfHike { get; set; } // THAY ĐỔI: Từ DateTime sang string
-        public bool ParkingAvailable { get; set; } // THAY ĐỔI: Tên (bỏ 'Is')
-        public string LengthOfHike { get; set; } // THAY ĐỔI: Từ double sang string
+        public DateTime DateOfHike { get; set; } 
+        public string ParkingAvailable { get; set; } 
+        public string LengthOfHike { get; set; }
         public string DifficultyLevel { get; set; }
         public string Description { get; set; }
-        public string HikerCount { get; set; } // THAY ĐỔI: Từ int sang string
-        public string Equipment { get; set; } // THÊM MỚI
-        // ĐÃ XÓA: EstimatedTime
+        public string HikerCount { get; set; }
+        public string Equipment { get; set; }
     }
 }

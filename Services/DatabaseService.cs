@@ -15,11 +15,9 @@ namespace MHiker_CrossPlatform.Services
 
         public DatabaseService()
         {
-            // Xác định đường dẫn CSDL
             _databasePath = Path.Combine(FileSystem.AppDataDirectory, "M_Hiker.db");
         }
 
-        // Khởi tạo CSDL và Bảng
         private async Task Init()
         {
             if (_database != null)
@@ -29,28 +27,30 @@ namespace MHiker_CrossPlatform.Services
             await _database.CreateTableAsync<Hike>();
         }
 
-        // THAY ĐỔI: Sửa tên phương thức
+        public async Task<Hike> GetHikeByIdAsync(int id)
+        {
+            await Init();
+            return await _database.Table<Hike>().Where(i => i.Id == id).FirstOrDefaultAsync();
+        }
+
         public async Task<List<Hike>> GetHikesAsync()
         {
             await Init();
             return await _database.Table<Hike>().ToListAsync();
         }
 
-        // THAY ĐỔI: Sửa tên phương thức
         public async Task<int> AddHikeAsync(Hike hike)
         {
             await Init();
             return await _database.InsertAsync(hike);
         }
 
-        // THAY ĐỔI: Sửa tên phương thức
         public async Task<int> DeleteHikeAsync(Hike hike)
         {
             await Init();
             return await _database.DeleteAsync(hike);
         }
 
-        // THAY ĐỔI: Sửa tên phương thức
         public async Task<int> UpdateHikeAsync(Hike hike)
         {
             await Init();

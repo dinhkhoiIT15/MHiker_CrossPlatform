@@ -4,7 +4,7 @@
              xmlns:viewmodel="clr-namespace:MHiker_CrossPlatform.ViewModels"
              x:DataType="viewmodel:AddHikeViewModel"
              x:Class="MHiker_CrossPlatform.Views.AddHikePage"
-             Title="Add New Hike">
+             Title="{Binding PageTitle}">
     <ScrollView>
         <VerticalStackLayout Padding="20" Spacing="15">
 
@@ -34,7 +34,7 @@
                 </Border.StrokeShape>
                 <HorizontalStackLayout Spacing="10" VerticalOptions="Center">
                     <Image Source="ic_date.png" WidthRequest="24" HeightRequest="24" />
-                    <Entry Text="{Binding DateOfHike}" Placeholder="Date (e.g. Nov 10, 2025) (Required)" VerticalOptions="Center" HorizontalOptions="FillAndExpand" />
+                    <DatePicker Date="{Binding DateOfHike}" HorizontalOptions="FillAndExpand" />
                 </HorizontalStackLayout>
             </Border>
 
@@ -67,14 +67,20 @@
                 </HorizontalStackLayout>
             </Border>
 
-            <Border StrokeThickness="1" Padding="8,8">
+            <Border StrokeThickness="1" Padding="8,0">
                 <Border.StrokeShape>
                     <RoundRectangle CornerRadius="5" Stroke="#CCCCCC" />
                 </Border.StrokeShape>
                 <HorizontalStackLayout Spacing="10" VerticalOptions="Center">
                     <Image Source="ic_parking.png" WidthRequest="24" HeightRequest="24" />
-                    <Label Text="Parking Available" VerticalOptions="Center" HorizontalOptions="FillAndExpand" />
-                    <Switch IsToggled="{Binding ParkingAvailable}" />
+                    <Picker SelectedItem="{Binding ParkingAvailable}" Title="Parking Available (Required)" HorizontalOptions="FillAndExpand">
+                        <Picker.ItemsSource>
+                            <x:Array Type="{x:Type x:String}">
+                                <x:String>No</x:String>
+                                <x:String>Yes</x:String>
+                            </x:Array>
+                        </Picker.ItemsSource>
+                    </Picker>
                 </HorizontalStackLayout>
             </Border>
 
@@ -105,7 +111,15 @@
                 <Editor Text="{Binding Description}" Placeholder="Description (Optional)" AutoSize="TextChanges" HeightRequest="100"/>
             </Border>
 
-            <Button Text="Save Hike" Command="{Binding SaveHikeCommand}" HorizontalOptions="Fill" CornerRadius="8" Padding="14"/>
+            <Button Text="{Binding SaveButtonText}" Command="{Binding SaveHikeCommand}" HorizontalOptions="Fill" CornerRadius="8" Padding="14"/>
+
+            <Button Text="Delete Hike" 
+                    Command="{Binding DeleteHikeCommand}" 
+                    BackgroundColor="Red"
+                    HorizontalOptions="Fill" 
+                    CornerRadius="8" 
+                    Padding="14"
+                    IsVisible="{Binding IsEditMode}"/>
 
         </VerticalStackLayout>
     </ScrollView>

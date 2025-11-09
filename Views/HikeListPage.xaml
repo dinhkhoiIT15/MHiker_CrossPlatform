@@ -15,6 +15,12 @@
             <CollectionView.ItemTemplate>
                 <DataTemplate x:DataType="models:Hike">
                     <Frame Margin="10,5" Padding="16" CornerRadius="8" BorderColor="LightGray" HasShadow="True">
+                        <Frame.GestureRecognizers>
+                            <TapGestureRecognizer 
+                                Command="{Binding Source={RelativeSource AncestorType={x:Type viewmodel:HikeListViewModel}}, Path=GoToEditHikeCommand}"
+                                CommandParameter="{Binding .}"/>
+                        </Frame.GestureRecognizers>
+
                         <VerticalStackLayout Spacing="8">
 
                             <Label Text="{Binding Name}" FontSize="18" FontAttributes="Bold" />
@@ -26,7 +32,7 @@
 
                             <HorizontalStackLayout Spacing="8" VerticalOptions="Center">
                                 <Image Source="ic_date.png" WidthRequest="16" HeightRequest="16" />
-                                <Label Text="{Binding DateOfHike}" FontSize="14" VerticalOptions="Center" />
+                                <Label Text="{Binding DateOfHike, StringFormat='{0:d}'}" FontSize="14" VerticalOptions="Center" />
                             </HorizontalStackLayout>
 
                         </VerticalStackLayout>
