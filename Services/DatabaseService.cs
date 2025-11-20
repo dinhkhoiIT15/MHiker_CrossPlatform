@@ -1,9 +1,7 @@
 ﻿using MHiker_CrossPlatform.Models;
 using SQLite;
-using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
+using System.IO;
 using System.Threading.Tasks;
 
 namespace MHiker_CrossPlatform.Services
@@ -11,50 +9,40 @@ namespace MHiker_CrossPlatform.Services
     public class DatabaseService
     {
         private SQLiteAsyncConnection _database;
-        private readonly string _databasePath;
 
-        public DatabaseService()
+        async Task Init()
         {
-            // Xác định đường dẫn CSDL
-            _databasePath = Path.Combine(FileSystem.AppDataDirectory, "M_Hiker.db");
-        }
-
-        // Khởi tạo CSDL và Bảng
-        private async Task Init()
-        {
-            if (_database != null)
-                return;
-
-            _database = new SQLiteAsyncConnection(_databasePath);
+            if (_database != null) return;
+            var databasePath = Path.Combine(FileSystem.AppDataDirectory, "M_Hiker.db");
+            _database = new SQLiteAsyncConnection(databasePath);
             await _database.CreateTableAsync<Hike>();
         }
 
-        // THAY ĐỔI: Sửa tên phương thức
         public async Task<List<Hike>> GetHikesAsync()
         {
             await Init();
             return await _database.Table<Hike>().ToListAsync();
         }
 
-        // THAY ĐỔI: Sửa tên phương thức
-        public async Task<int> AddHikeAsync(Hike hike)
+        public async Task<Hike> GetHikeAsync(int id)
         {
             await Init();
-            return await _database.InsertAsync(hike);
+            return await _database.Table<Hike>().Where(i => i.Id == id).FirstOrDefaultAsync();
         }
 
-        // THAY ĐỔI: Sửa tên phương thức
+        public async Task<int> SaveHikeAsync(Hike hike)
+        {
+            await Init();
+            if (hike.Id != 0)
+                return await _database.UpdateAsync(hike); // Update nếu đã có ID
+            else
+                return await _database.InsertAsync(hike); // Insert nếu ID = 0
+        }
+
         public async Task<int> DeleteHikeAsync(Hike hike)
         {
             await Init();
             return await _database.DeleteAsync(hike);
-        }
-
-        // THAY ĐỔI: Sửa tên phương thức
-        public async Task<int> UpdateHikeAsync(Hike hike)
-        {
-            await Init();
-            return await _database.UpdateAsync(hike);
         }
     }
 }

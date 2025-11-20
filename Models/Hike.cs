@@ -1,9 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using SQLite;
+﻿using SQLite;
+using System;
 
 namespace MHiker_CrossPlatform.Models
 {
@@ -15,13 +11,12 @@ namespace MHiker_CrossPlatform.Models
 
         public string Name { get; set; }
         public string Location { get; set; }
-        public string DateOfHike { get; set; } // THAY ĐỔI: Từ DateTime sang string
-        public bool ParkingAvailable { get; set; } // THAY ĐỔI: Tên (bỏ 'Is')
-        public string LengthOfHike { get; set; } // THAY ĐỔI: Từ double sang string
+        public DateTime DateOfHike { get; set; } // Đã đổi sang DateTime
+        public bool ParkingAvailable { get; set; }
+        public double LengthOfHike { get; set; } // Đã đổi sang double
         public string DifficultyLevel { get; set; }
         public string Description { get; set; }
-        public string HikerCount { get; set; } // THAY ĐỔI: Từ int sang string
-        public string Equipment { get; set; } // THÊM MỚI
-        // ĐÃ XÓA: EstimatedTime
+        public int HikerCount { get; set; } // Đã đổi sang int
+        public string Equipment { get; set; }
     }
 }

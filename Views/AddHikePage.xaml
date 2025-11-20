@@ -4,57 +4,100 @@
              xmlns:viewmodel="clr-namespace:MHiker_CrossPlatform.ViewModels"
              x:DataType="viewmodel:AddHikeViewModel"
              x:Class="MHiker_CrossPlatform.Views.AddHikePage"
-             Title="Add New Hike">
+             Title="{Binding Name, StringFormat='Hike: {0}', TargetNullValue='New Hike'}">
+
     <ScrollView>
         <VerticalStackLayout Padding="20" Spacing="15">
 
-            <Border StrokeThickness="1" Padding="8,0">
+            <Border StrokeThickness="1" Padding="10,0" Stroke="LightGray">
                 <Border.StrokeShape>
-                    <RoundRectangle CornerRadius="5" Stroke="#CCCCCC" />
+                    <RoundRectangle CornerRadius="8" />
                 </Border.StrokeShape>
-                <HorizontalStackLayout Spacing="10" VerticalOptions="Center">
-                    <Image Source="ic_hike_name.png" WidthRequest="24" HeightRequest="24" />
-                    <Entry Text="{Binding Name}" Placeholder="Name of hike (Required)" VerticalOptions="Center" HorizontalOptions="FillAndExpand" />
+                <HorizontalStackLayout Spacing="10">
+                    <Image Source="ic_hike_name.png" 
+                           WidthRequest="20" HeightRequest="20" 
+                           VerticalOptions="Center" />
+                    <Entry Text="{Binding Name}" 
+                           Placeholder="Name (Required)" 
+                           HorizontalOptions="FillAndExpand"
+                           VerticalOptions="Center"/>
                 </HorizontalStackLayout>
             </Border>
 
-            <Border StrokeThickness="1" Padding="8,0">
+            <Border StrokeThickness="1" Padding="10,0" Stroke="LightGray">
                 <Border.StrokeShape>
-                    <RoundRectangle CornerRadius="5" Stroke="#CCCCCC" />
+                    <RoundRectangle CornerRadius="8" />
                 </Border.StrokeShape>
-                <HorizontalStackLayout Spacing="10" VerticalOptions="Center">
-                    <Image Source="ic_location.png" WidthRequest="24" HeightRequest="24" />
-                    <Entry Text="{Binding Location}" Placeholder="Location (Required)" VerticalOptions="Center" HorizontalOptions="FillAndExpand" />
+                <HorizontalStackLayout Spacing="10">
+                    <Image Source="ic_location.png" 
+                           WidthRequest="20" HeightRequest="20" 
+                           VerticalOptions="Center" />
+                    <Entry Text="{Binding Location}" 
+                           Placeholder="Location (Required)" 
+                           HorizontalOptions="FillAndExpand"
+                           VerticalOptions="Center"/>
                 </HorizontalStackLayout>
             </Border>
 
-            <Border StrokeThickness="1" Padding="8,0">
+            <Border StrokeThickness="1" Padding="10,0" Stroke="LightGray">
                 <Border.StrokeShape>
-                    <RoundRectangle CornerRadius="5" Stroke="#CCCCCC" />
+                    <RoundRectangle CornerRadius="8" />
                 </Border.StrokeShape>
-                <HorizontalStackLayout Spacing="10" VerticalOptions="Center">
-                    <Image Source="ic_date.png" WidthRequest="24" HeightRequest="24" />
-                    <Entry Text="{Binding DateOfHike}" Placeholder="Date (e.g. Nov 10, 2025) (Required)" VerticalOptions="Center" HorizontalOptions="FillAndExpand" />
+                <HorizontalStackLayout Spacing="10">
+                    <Image Source="ic_date.png" 
+                           WidthRequest="20" HeightRequest="20" 
+                           VerticalOptions="Center" />
+                    <Label Text="Date:" VerticalOptions="Center" TextColor="Gray"/>
+                    <DatePicker Date="{Binding DateOfHike}" 
+                                Format="d" 
+                                HorizontalOptions="FillAndExpand"
+                                VerticalOptions="Center"/>
                 </HorizontalStackLayout>
             </Border>
 
-            <Border StrokeThickness="1" Padding="8,0">
+            <Border StrokeThickness="1" Padding="10,5" Stroke="LightGray">
                 <Border.StrokeShape>
-                    <RoundRectangle CornerRadius="5" Stroke="#CCCCCC" />
+                    <RoundRectangle CornerRadius="8" />
                 </Border.StrokeShape>
-                <HorizontalStackLayout Spacing="10" VerticalOptions="Center">
-                    <Image Source="ic_length.png" WidthRequest="24" HeightRequest="24" />
-                    <Entry Text="{Binding LengthOfHike}" Placeholder="Length (km) (Required)" VerticalOptions="Center" HorizontalOptions="FillAndExpand" />
+                <HorizontalStackLayout Spacing="10">
+                    <Image Source="ic_parking.png" 
+                           WidthRequest="20" HeightRequest="20" 
+                           VerticalOptions="Center" />
+                    <Label Text="Parking Available" 
+                           VerticalOptions="Center" 
+                           HorizontalOptions="FillAndExpand" />
+                    <Switch IsToggled="{Binding ParkingAvailable}" />
                 </HorizontalStackLayout>
             </Border>
 
-            <Border StrokeThickness="1" Padding="8,0">
+            <Border StrokeThickness="1" Padding="10,0" Stroke="LightGray">
                 <Border.StrokeShape>
-                    <RoundRectangle CornerRadius="5" Stroke="#CCCCCC" />
+                    <RoundRectangle CornerRadius="8" />
                 </Border.StrokeShape>
-                <HorizontalStackLayout Spacing="10" VerticalOptions="Center">
-                    <Image Source="ic_difficulty.png" WidthRequest="24" HeightRequest="24" />
-                    <Picker SelectedItem="{Binding DifficultyLevel}" Title="Difficulty Level (Required)" HorizontalOptions="FillAndExpand">
+                <HorizontalStackLayout Spacing="10">
+                    <Image Source="ic_length.png" 
+                           WidthRequest="20" HeightRequest="20" 
+                           VerticalOptions="Center" />
+                    <Entry Text="{Binding LengthOfHike}" 
+                           Placeholder="Length (km) (Required)" 
+                           Keyboard="Numeric"
+                           HorizontalOptions="FillAndExpand"
+                           VerticalOptions="Center"/>
+                </HorizontalStackLayout>
+            </Border>
+
+            <Border StrokeThickness="1" Padding="10,0" Stroke="LightGray">
+                <Border.StrokeShape>
+                    <RoundRectangle CornerRadius="8" />
+                </Border.StrokeShape>
+                <HorizontalStackLayout Spacing="10">
+                    <Image Source="ic_difficulty.png" 
+                           WidthRequest="20" HeightRequest="20" 
+                           VerticalOptions="Center" />
+                    <Picker SelectedItem="{Binding DifficultyLevel}" 
+                            Title="Select Difficulty"
+                            HorizontalOptions="FillAndExpand"
+                            VerticalOptions="Center">
                         <Picker.ItemsSource>
                             <x:Array Type="{x:Type x:String}">
                                 <x:String>Easy</x:String>
@@ -67,45 +110,59 @@
                 </HorizontalStackLayout>
             </Border>
 
-            <Border StrokeThickness="1" Padding="8,8">
+            <Border StrokeThickness="1" Padding="10,0" Stroke="LightGray">
                 <Border.StrokeShape>
-                    <RoundRectangle CornerRadius="5" Stroke="#CCCCCC" />
+                    <RoundRectangle CornerRadius="8" />
                 </Border.StrokeShape>
-                <HorizontalStackLayout Spacing="10" VerticalOptions="Center">
-                    <Image Source="ic_parking.png" WidthRequest="24" HeightRequest="24" />
-                    <Label Text="Parking Available" VerticalOptions="Center" HorizontalOptions="FillAndExpand" />
-                    <Switch IsToggled="{Binding ParkingAvailable}" />
+                <HorizontalStackLayout Spacing="10">
+                    <Image Source="ic_hiker_count.png" 
+                           WidthRequest="20" HeightRequest="20" 
+                           VerticalOptions="Center" />
+                    <Entry Text="{Binding HikerCount}" 
+                           Placeholder="Hiker Count" 
+                           Keyboard="Numeric"
+                           HorizontalOptions="FillAndExpand"
+                           VerticalOptions="Center"/>
                 </HorizontalStackLayout>
             </Border>
 
-            <Border StrokeThickness="1" Padding="8,0">
+            <Border StrokeThickness="1" Padding="10,0" Stroke="LightGray">
                 <Border.StrokeShape>
-                    <RoundRectangle CornerRadius="5" Stroke="#CCCCCC" />
+                    <RoundRectangle CornerRadius="8" />
                 </Border.StrokeShape>
-                <HorizontalStackLayout Spacing="10" VerticalOptions="Center">
-                    <Image Source="ic_hiker_count.png" WidthRequest="24" HeightRequest="24" />
-                    <Entry Text="{Binding HikerCount}" Placeholder="Hiker Count (Optional)" VerticalOptions="Center" HorizontalOptions="FillAndExpand" />
+                <HorizontalStackLayout Spacing="10">
+                    <Image Source="ic_equipment.png" 
+                           WidthRequest="20" HeightRequest="20" 
+                           VerticalOptions="Center" />
+                    <Entry Text="{Binding Equipment}" 
+                           Placeholder="Equipment (Optional)" 
+                           HorizontalOptions="FillAndExpand"
+                           VerticalOptions="Center"/>
                 </HorizontalStackLayout>
             </Border>
 
-            <Border StrokeThickness="1" Padding="8,0">
+            <Border StrokeThickness="1" Padding="10" Stroke="LightGray">
                 <Border.StrokeShape>
-                    <RoundRectangle CornerRadius="5" Stroke="#CCCCCC" />
+                    <RoundRectangle CornerRadius="8" />
                 </Border.StrokeShape>
-                <HorizontalStackLayout Spacing="10" VerticalOptions="Center">
-                    <Image Source="ic_equipment.png" WidthRequest="24" HeightRequest="24" />
-                    <Entry Text="{Binding Equipment}" Placeholder="Equipment (Optional)" VerticalOptions="Center" HorizontalOptions="FillAndExpand" />
-                </HorizontalStackLayout>
+                <Editor Text="{Binding Description}" 
+                        Placeholder="Description (Optional)" 
+                        AutoSize="TextChanges" 
+                        HeightRequest="100"/>
             </Border>
 
-            <Border StrokeThickness="1" Padding="8">
-                <Border.StrokeShape>
-                    <RoundRectangle CornerRadius="5" Stroke="#CCCCCC" />
-                </Border.StrokeShape>
-                <Editor Text="{Binding Description}" Placeholder="Description (Optional)" AutoSize="TextChanges" HeightRequest="100"/>
-            </Border>
+            <Button Text="Save" 
+                    Command="{Binding SaveHikeCommand}" 
+                    Margin="0,10,0,0" 
+                    CornerRadius="8"/>
 
-            <Button Text="Save Hike" Command="{Binding SaveHikeCommand}" HorizontalOptions="Fill" CornerRadius="8" Padding="14"/>
+            <Button Text="Delete Hike" 
+                    Command="{Binding DeleteHikeCommand}"
+                    IsVisible="{Binding IsEditMode}"
+                    BackgroundColor="#D32F2F"
+                    TextColor="White"
+                    CornerRadius="8"
+                    Margin="0,0,0,20" />
 
         </VerticalStackLayout>
     </ScrollView>

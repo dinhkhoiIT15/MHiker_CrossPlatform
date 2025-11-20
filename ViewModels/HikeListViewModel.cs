@@ -5,13 +5,14 @@ using MHiker_CrossPlatform.Services;
 using MHiker_CrossPlatform.Views;
 using System.Collections.ObjectModel;
 using System.Threading.Tasks;
+using Microsoft.Maui.Controls;
 
 namespace MHiker_CrossPlatform.ViewModels
 {
     public partial class HikeListViewModel : ObservableObject
     {
         private readonly DatabaseService _databaseService;
-        public ObservableCollection<Hike> Hikes { get; } = new ObservableCollection<Hike>();
+        public ObservableCollection<Hike> Hikes { get; } = new();
 
         public HikeListViewModel(DatabaseService databaseService)
         {
@@ -19,43 +20,48 @@ namespace MHiker_CrossPlatform.ViewModels
         }
 
         [RelayCommand]
-        private async Task LoadHikesAsync()
+        public async Task LoadHikesAsync()
         {
             var hikes = await _databaseService.GetHikesAsync();
             Hikes.Clear();
             foreach (var hike in hikes)
-            {
                 Hikes.Add(hike);
-            }
         }
 
         [RelayCommand]
-        private async Task GoToAddHikeAsync()
+        async Task GoToAddHikeAsync()
         {
-            // --- VỊ TRÍ SỬA ---: Truyền ID=0 để báo hiệu đây là chế độ Add
             await Shell.Current.GoToAsync($"{nameof(AddHikePage)}?HikeId=0");
         }
 
-        // --- VỊ TRÍ SỬA ---: Thêm Command để điều hướng đến trang Edit
         [RelayCommand]
-        private async Task GoToEditHikeAsync(Hike hike)
+        async Task GoToEditHikeAsync(Hike hike)
         {
             if (hike == null) return;
-            // Truyền ID của hike cần edit qua trang AddHikePage
             await Shell.Current.GoToAsync($"{nameof(AddHikePage)}?HikeId={hike.Id}");
         }
 
-
         [RelayCommand]
-        private async Task DeleteHikeAsync(Hike hike)
+        async Task DeleteHikeAsync(Hike hike)
         {
             if (hike == null) return;
 
-            bool confirm = await Shell.Current.DisplayAlert("Delete Hike", $"Are you sure you want to delete '{hike.Name}'?", "Yes", "No");
+            // Dialog xác nhận Xóa
+            bool confirm = await Shell.Current.DisplayAlert(
+                "Confirm Delete",
+                $"Are you sure you want to permanently delete the hike '{hike.Name}'?",
+                "Yes",
+                "No");
+
             if (confirm)
             {
                 await _databaseService.DeleteHikeAsync(hike);
+
+                // Cập nhật lại danh sách trên giao diện ngay lập tức
                 Hikes.Remove(hike);
+
+                // (Tùy chọn) Thông báo đã xóa thành công
+                // await Shell.Current.DisplayAlert("Deleted", $"Hike '{hike.Name}' has been removed.", "OK");
             }
         }
     }

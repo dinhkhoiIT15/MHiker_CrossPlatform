@@ -8,32 +8,39 @@
              Title="All Hikes">
 
     <Grid RowDefinitions="Auto, *">
-
         <Button Grid.Row="0" Text="Add New Hike" Margin="10" Command="{Binding GoToAddHikeCommand}" />
 
         <CollectionView Grid.Row="1" ItemsSource="{Binding Hikes}" SelectionMode="None">
             <CollectionView.ItemTemplate>
                 <DataTemplate x:DataType="models:Hike">
-                    <Frame Margin="10,5" Padding="16" CornerRadius="8" BorderColor="LightGray" HasShadow="True">
-                        <VerticalStackLayout Spacing="8">
+                    <SwipeView>
+                        <SwipeView.RightItems>
+                            <SwipeItems>
+                                <SwipeItem Text="Delete" 
+                                           BackgroundColor="Red" 
+                                           Command="{Binding Source={RelativeSource AncestorType={x:Type viewmodel:HikeListViewModel}}, Path=DeleteHikeCommand}"
+                                           CommandParameter="{Binding .}"/>
+                            </SwipeItems>
+                        </SwipeView.RightItems>
 
-                            <Label Text="{Binding Name}" FontSize="18" FontAttributes="Bold" />
+                        <Grid Padding="10,5">
+                            <Frame Padding="16" CornerRadius="8" BorderColor="LightGray">
+                                <Frame.GestureRecognizers>
+                                    <TapGestureRecognizer 
+                                        Command="{Binding Source={RelativeSource AncestorType={x:Type viewmodel:HikeListViewModel}}, Path=GoToEditHikeCommand}"
+                                        CommandParameter="{Binding .}" />
+                                </Frame.GestureRecognizers>
 
-                            <HorizontalStackLayout Spacing="8" VerticalOptions="Center">
-                                <Image Source="ic_location.png" WidthRequest="16" HeightRequest="16" />
-                                <Label Text="{Binding Location}" FontSize="14" VerticalOptions="Center" />
-                            </HorizontalStackLayout>
-
-                            <HorizontalStackLayout Spacing="8" VerticalOptions="Center">
-                                <Image Source="ic_date.png" WidthRequest="16" HeightRequest="16" />
-                                <Label Text="{Binding DateOfHike}" FontSize="14" VerticalOptions="Center" />
-                            </HorizontalStackLayout>
-
-                        </VerticalStackLayout>
-                    </Frame>
+                                <VerticalStackLayout Spacing="5">
+                                    <Label Text="{Binding Name}" FontSize="18" FontAttributes="Bold" TextColor="Black"/>
+                                    <Label Text="{Binding Location}" FontSize="14" TextColor="Gray"/>
+                                    <Label Text="{Binding DateOfHike, StringFormat='{0:MMM dd, yyyy}'}" FontSize="12" TextColor="Blue"/>
+                                </VerticalStackLayout>
+                            </Frame>
+                        </Grid>
+                    </SwipeView>
                 </DataTemplate>
             </CollectionView.ItemTemplate>
         </CollectionView>
     </Grid>
-
 </ContentPage>
